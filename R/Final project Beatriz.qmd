@@ -1,0 +1,138 @@
+---
+title: "FEV1 and height"
+format: html
+author: Beatriz Guerra 
+---
+
+## Final project
+
+This Quatro document is the final assigment of Basic Statistics and projects in R class.
+
+## **Aim**
+
+The aim of this assignment is to calculate is height is related to FEV1.
+
+## Importing data: 
+
+In this section I will import the data:
+
+```{r}
+setwd("~/project-template-main/project-template-main/data/raw")
+data<-read.csv('perulung_ems.csv')
+library(ggplot2)
+library(tidyverse)
+library(tidyverse)
+library(here)
+data <- read_csv("data/raw/perulung_ems.csv")
+perulung_ems<-data
+str(data)
+data<- data |> mutate(id=as.integer(id), 
+                sex = factor(sex, levels=c(0,1), labels=c("f","m")), 
+                respsymptoms=factor(respsymptoms, levels=c(0,1), labels=c("no","yes")), 
+                asthma_hist=factor(asthma_hist))
+data<-rename(data, gender = sex)
+data
+```
+
+## Analysis
+
+In this part I will calculate the following descriptive statistics for variable 'height' using R-functions.
+
+```{r}
+summary(data)
+head(data,10)
+tail(data,10)
+
+
+#Mean
+sum(data$height, na.rm = TRUE) / 
+  sum(!is.na(data$height))
+124.053
+
+sum(data$fev1, na.rm = TRUE) / 
+  sum(!is.na(data$fev1))
+1.594654
+
+data %>%
+  group_by(gender) %>%                        
+  summarise( = mean(bill_length_mm, na.rm = TRUE)) %>%
+  kable(digits = 2)
+
+
+
+
+#Quartiles
+quantile(data$height, c(0.25,0.5,0.75))
+ 25%   50%   75% 
+119.9 124.0 128.0 
+
+#Sample variance
+
+
+
+#Sample standard deviation
+
+
+
+#Range, interquartile range (IQR)
+```
+
+## **Data visualization**
+
+```{r}
+
+data
+#Histogram: Height
+ggplot(data, aes(x=height)) + 
+              geom_histogram(color='blue', fill='purple')
+
+#Histogram: FEV1
+ggplot(data, aes(x=fev1)) + 
+  geom_histogram()
+
+#Change color
+data %>%
+  ggplot(aes(x=height)) +
+  geom_histogram(color = "black",
+                 fill = "red", 
+                 bins = 30) + 
+  theme_bw()
+
+  data %>%
+  ggplot(aes(x=height)) +
+  geom_histogram(color = "black",
+                 fill = "green", 
+                 bins = 30) + 
+  theme_bw()
+  
+  #Height-gender
+data %>%
+  ggplot(aes(x = gender, y =height, fill = gender)) +
+  geom_boxplot() + 
+  theme_bw()
+
+#Height-FEV1
+data %>%
+  ggplot(aes(x = gender, y =fev1, fill = gender)) +
+  geom_boxplot() + 
+  theme_bw()
+
+#Height, FEV1, gender
+data %>%
+  ggplot(aes(x = height, y = fev1, color = gender)) +
+  geom_point() + 
+  theme_bw()
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```

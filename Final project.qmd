@@ -1,0 +1,169 @@
+---
+title: "Sex and respiratory system"
+format: html
+editor: visual
+author: Beatriz Guerra
+---
+
+# Final assignment
+
+## Aim
+
+The aim of this final project is to study and analyze if sex has a significant effect on respiratory system structure and function. For this aim I am going to analyze the lung function in both sexes and their physical characteristics (e.g, height). I am going to use the Peru lung data base.
+
+## Introduction
+
+Sex-differences in the human respiratory system have previously been identified. Specifically, women have smaller lungs than men, even when matched for height, and women have smaller large conducting airways than men, even when matched for lung size. These inherent sex-differences in the structure of the respiratory system have important effects on resting pulmonary function and the integrative response to exercise. In this study, we will analyze these differences with the Peruvian data base.
+
+## Importing data
+
+```{r}
+#import data
+library(tidyverse)
+library(ggplot2)
+data <- read_csv("data/raw/perulung_ems.csv")
+data<- data |> mutate(id=as.integer(id), 
+                sex = factor(sex, levels=c(0,1), labels=c("f","m")), 
+                respsymptoms=factor(respsymptoms, levels=c(0,1), labels=c("no","yes")), 
+                asthma_hist=factor(asthma_hist))
+data
+```
+
+## Data
+
+```{r}
+#summary
+summary(data)
+
+#head
+head(data,10)
+
+#tail
+tail(data,10)
+
+#mean height
+meanheight<-data %>%
+  summarise(height = mean(height, na.rm = TRUE))
+meanheight
+
+#median height by sex
+medianheight<-data %>%
+  group_by(sex) %>%                        
+  summarise(meanheight = mean(height, na.rm = TRUE),
+            Medianheight = median(height, na.rm = TRUE))
+medianheight
+
+#mean fev1
+meanfev1<-data %>%
+  summarise(fev1 = mean(fev1, na.rm = TRUE))
+meanfev1
+
+#median fev1 by sex
+medianfev1<-data %>%
+  group_by(sex) %>%                        
+  summarise(meanfev1= mean(height, na.rm = TRUE),
+            Medianfev1 = median(height, na.rm = TRUE))
+medianheight
+
+#mean age
+meanage<-data %>%
+  summarise(age = mean(fev1, na.rm = TRUE))
+meanage
+
+#median age by sex
+medianage<-data %>%
+  group_by(sex) %>%                        
+  summarise(meanage= mean(age, na.rm = TRUE),
+            medianage = median(height, na.rm = TRUE))
+medianage
+```
+
+## Group proportions
+
+```{r}
+#sex vs asthma
+table1 <-table(data$sex, data$asthma_hist)
+table1
+```
+
+```{r}
+#sex vs respiratory
+table2 <-table(data$sex, data$respsymptoms)
+table2
+
+#no symptoms vs women
+#no 
+```
+
+## Analysis: descriptive stadistics
+
+```{r}
+
+
+#quantile fev1
+quantile(data$fev1, c(0.25,0.5,0.75))
+ 
+ #quantile height
+ quantile(data$height, c(0.25,0.5,0.75))
+```
+
+## Analysis: variables
+
+```{r}
+
+```
+
+## Data visualization
+
+```{r}
+
+#histogram fev1
+ggplot(data, aes(x=fev1)) + 
+  geom_histogram()
+
+
+#histogram height
+ggplot(data, aes(x=height)) + 
+  geom_histogram()
+
+#histogram height, color
+data %>%
+  ggplot(aes(height)) +
+  geom_histogram(color = "black",
+                 fill = "steelblue", 
+                 bins = 30) + 
+  theme_bw()
+
+#histogram fev1, color
+data %>%
+  ggplot(aes(fev1)) +
+  geom_histogram(color = "purple",
+                 fill = "green", 
+                 bins = 30) + 
+  theme_bw()
+
+
+
+#box plot 
+
+
+#Scatter plot
+
+#compare height vs fev1 in both sexes
+data %>%
+  ggplot(aes(x = fev1, y =height, color = sex)) +
+  geom_point() + 
+  theme_bw()
+
+#compere fev1 vs age in both sexes
+data %>%
+  ggplot(aes(x = fev1, y =age, color = sex)) +
+  geom_point() + 
+  theme_bw()
+```
+
+## Examples
+
+```{r}
+
+```

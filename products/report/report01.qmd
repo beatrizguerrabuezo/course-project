@@ -1,0 +1,46 @@
+---
+title: "Ebola"
+author: "Beatriz Guerra"
+date: "`r date()'"
+format: html
+toc: true
+code-fold: show
+code-tools: true
+
+---
+
+## Introduction
+
+The aim of this excercise is to visualize the cases of Ebola in three countries.
+##Data
+
+```{r}
+library(here)
+library(tidyverse)
+library(gtsummary)
+library(unibeCols)
+library(cowplot)
+ebola <- read_csv(here("ebola.csv")) |> arrange(Date)
+library(unibeCols)
+ebola2 <- ebola |> filter(Date<as.Date('2015-03-31')&
+                        (Country=='Guinea'|Country=='Liberia'|Country=='Sierra Leone'))
+Grafico<-ggplot(data=ebola2,mapping=aes(x=Date, y=Cum_conf_cases,color=Country))+geom_point(aes(group=Country))
+Grafico
+Grafico<-ggplot(data=ebola2,mapping=aes(x=Date, y=Cum_conf_cases,color=Country))+geom_point(aes(group=Country))
+Grafico<-ggplot(data=ebola2,mapping=aes(x=Date, y=Cum_conf_cases,color=Country))+geom_point(aes(group=Country))
+Grafico
+Grafico_1<-ggplot(data=ebola2,mapping=aes(x=Date, y=Cum_conf_cases,color=Country))+
+  geom_col(aes(group=Country))+
+  scale_colour_manual(name = "Country",
+                      breaks = c("Guinea", "Liberia", "Sierra Leone"),
+                      values = c('orange','blue','purple'),
+                      labels = c("Guinea", "Liberia", "Sierra Leone"))
+```
+
+
+```{r}
+```
+
+
+```{r}
+```
